@@ -1,0 +1,180 @@
+/* === RESET === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* === CORES PRINCIPAIS === */
+:root {
+    --bg-dark: #0d0d0d;
+    --bg-card: #1a1a1a;
+    --purple: #6c63ff;
+    --purple-light: #8a85ff;
+    --text-light: #f2f2f2;
+    --text-gray: #aaa;
+    --accent: #00e0ff;
+}
+
+/* === GERAL === */
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* === NAVBAR === */
+header {
+    background: linear-gradient(90deg, var(--purple), var(--accent));
+    padding: 15px 30px;
+    color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.navbar a:hover {
+    color: var(--accent);
+}
+
+/* === HERO === */
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+    background: radial-gradient(circle at top, var(--bg-card), var(--bg-dark));
+}
+
+.hero h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: var(--purple-light);
+}
+
+.hero p {
+    font-size: 1.1rem;
+    color: var(--text-gray);
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    background: var(--purple);
+    color: white;
+    padding: 10px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: var(--accent);
+    transform: scale(1.05);
+}
+
+/* === SEÇÃO DE LEILÕES === */
+.auctions {
+    padding: 40px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.auctions h3 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--accent);
+    font-size: 1.6rem;
+}
+
+.auction-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 25px;
+}
+
+.auction-card {
+    background: var(--bg-card);
+    border: 1px solid #222;
+    border-radius: 10px;
+    padding: 20px;
+    transition: 0.3s;
+    box-shadow: 0 0 10px rgba(108, 99, 255, 0.1);
+}
+
+.auction-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 15px rgba(0, 224, 255, 0.4);
+}
+
+.auction-card h4 {
+    color: var(--purple-light);
+    margin-bottom: 10px;
+}
+
+.auction-card p {
+    margin-bottom: 8px;
+    color: var(--text-gray);
+}
+
+.auction-card strong {
+    color: var(--accent);
+}
+
+/* === FOOTER === */
+footer {
+    background: var(--bg-card);
+    text-align: center;
+    padding: 15px 0;
+    color: var(--text-gray);
+    margin-top: auto;
+    border-top: 1px solid #222;
+}
+
+footer p {
+    font-size: 0.9rem;
+}
+
+/* === RESPONSIVO === */
+@media (max-width: 768px) {
+    .navbar h1 {
+        font-size: 1.2rem;
+    }
+
+    .navbar ul {
+        gap: 10px;
+    }
+
+    .hero h2 {
+        font-size: 1.5rem;
+    }
+
+    .auction-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,40 @@
+    {% extends "base.html" %}
+    {% block content %}
+    <div class="container">
+    <h2>Painel do Administrador</h2>
+    <p>Bem-vindo, {{ session['username'] }}!</p>
+
+    <h3>Leilões Ativos</h3>
+    <table>
+        <thead>
+        <tr><th>Jogo</th><th>Preço Atual</th><th>Status</th><th>Ações</th></tr>
+        </thead>
+        <tbody>
+        {% for a in auctions %}
+        <tr>
+            <td>{{ a.game.title }}</td>
+            <td>R$ {{ a.current_price }}</td>
+            <td>{{ a.status }}</td>
+            <td>
+            <a href="{{ url_for('auction_detail', auction_id=a.id) }}" class="btn btn-primary">Ver</a>
+            <a href="#" class="btn btn-cta">Encerrar</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Criar Novo Leilão</h3>
+    <form method="POST" action="{{ url_for('create_auction') }}">
+        <label>Título do jogo:</label>
+        <input type="text" name="title" required>
+        <label>Plataforma:</label>
+        <input type="text" name="platform">
+        <label>Descrição:</label>
+        <textarea name="description"></textarea>
+        <label>Preço inicial:</label>
+        <input type="number" step="0.01" name="start_price" required>
+        <button type="submit" class="btn btn-cta">Criar Leilão</button>
+    </form>
+    </div>
+    {% endblock %}
