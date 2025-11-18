@@ -11,7 +11,7 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
-    role = db.Column(db.String(20), default='user')  # user/admin
+    role = db.Column(db.String(20), default='user')  
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     bids = db.relationship('Bid', backref='bidder', lazy=True)
@@ -45,7 +45,7 @@ class Auction(db.Model):
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=False)
     seller_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    status = db.Column(db.String(20), default='active')  # active, closed, canceled
+    status = db.Column(db.String(20), default='active') 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     bids = db.relationship('Bid', backref='auction', lazy=True)
