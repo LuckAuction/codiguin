@@ -6,22 +6,13 @@ from config import Config
 from datetime import datetime
 
 
-# =====================
-# CONFIGURAÇÃO DO APP
-# =====================
-
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# Inicializa extensões
 db.init_app(app)
-migrate = Migrate(app, db)      # <- isso garante que o import está sendo usado
-csrf = CSRFProtect(app)         # <- isso também evita o aviso amarelo
+migrate = Migrate(app, db)     
+csrf = CSRFProtect(app)        
 
-
-# =====================
-# ROTAS PRINCIPAIS
-# =====================
 
 @app.route('/')
 def index():
@@ -64,9 +55,6 @@ def place_bid():
     return redirect(url_for('auction_detail', auction_id=auction_id))
 
 
-# =====================
-# AUTENTICAÇÃO
-# =====================
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -116,10 +104,6 @@ def logout():
     return redirect(url_for('index'))
 
 
-# =====================
-# DASHBOARD
-# =====================
-
 @app.route('/dashboard')
 def dashboard():
     if 'user_id' not in session:
@@ -136,9 +120,6 @@ def dashboard():
     return render_template('dashboard_user.html', auctions=auctions)
 
 
-# =====================
-# EXECUÇÃO
-# =====================
 
 if __name__ == '__main__':
     app.run(debug=True)
