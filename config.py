@@ -5,48 +5,56 @@ load_dotenv()
 
 
 class Config:
-    """Configuração Base - Configurações comuns a todos os ambientes."""
-   
-    SECRET_KEY = os.environ.get('SECRET_KEY')
-    if not SECRET_KEY:
-        raise ValueError("ERRO: SECRET_KEY não definida. Use um valor aleatório e forte.")
+    """Configuração Base: Aplica-se a todos os ambientes."""
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///dev.sqlite3'
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
-    WTF_CSRF_ENABLED = True
+    WTF_CSRF_ENABLED = True 
     
-    MAIL_SERVER = 'smtp.example.com'
-   
+    MAIL_SERVER = os.environ.get('MAIL_SERVER')
+    MAIL_PORT = os.environ.get('MAIL_PORT')
+
 
 class DevelopmentConfig(Config):
-    """Configuração para Ambiente de Desenvolvimento."""
+    """Configuração para Desenvolvimento Local."""
+    
     DEBUG = True
     
+    if not os.environ.get('SECRET_KEY'):
+        SECRET_KEY = 'dev_secret_inseguro_mas_ok_para_dev'
+        
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///dev.sqlite3'
 
 
 class TestingConfig(Config):
-    """Configuração para Testes (Unitários, Integração)."""
+    """Configuração para Testes Unitários e de Integração."""
+    
     TESTING = True 
     DEBUG = False
     
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:' 
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'  
     
     WTF_CSRF_ENABLED = False
 
 
 class ProductionConfig(Config):
-    """Configuração para Ambiente de Produção."""
+    """Configuração de Alta Segurança para o Ambiente de Produção."""
+    
     DEBUG = False
     
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') 
-    if not SQLALCHEMY_DATABASE_URI:
-        raise ValueError("ERRO: DATABASE_URL não definida para produção.")
+    if not os.environ.get('SECRET_KEY'):
+        raise ValueError("ERRO CRÍTICO: SECRET_KEY não definida no ambiente de produção.")
+    
+    if not os.environ.get('DATABASE_URL'):
+        raise ValueError("ERRO CRÍTICO: DATABASE_URL não definida para produção.")
         
     SESSION_COOKIE_SECURE = True
     REMEMBER_COOKIE_SECURE = True
-    SESSION_COOKIE_HTTPONLY = True 
+    SESSION_COOKIE_HTTPONLY = True
+    
 
 config_map = {
     'development': DevelopmentConfig,
@@ -56,5 +64,5 @@ config_map = {
 }
 
 def get_config(config_name):
-    """Retorna a classe de configuração baseada no nome do ambiente."""
+    """Retorna a classe de configuração baseada no nome do ambiente (string)."""
     return config_map.get(config_name, config_map['default'])
