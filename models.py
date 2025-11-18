@@ -4,10 +4,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
-
-# ============================
-# MODELO USER
-# ============================
 class User(db.Model):
     __tablename__ = 'users'
 
@@ -27,10 +23,6 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-
-# ============================
-# MODELO GAME
-# ============================
 class Game(db.Model):
     __tablename__ = 'games'
 
@@ -43,10 +35,6 @@ class Game(db.Model):
 
     auctions = db.relationship('Auction', backref='game', lazy=True)
 
-
-# ============================
-# MODELO AUCTION
-# ============================
 class Auction(db.Model):
     __tablename__ = 'auctions'
 
@@ -62,10 +50,6 @@ class Auction(db.Model):
 
     bids = db.relationship('Bid', backref='auction', lazy=True)
 
-
-# ============================
-# MODELO BID
-# ============================
 class Bid(db.Model):
     __tablename__ = 'bids'
 
