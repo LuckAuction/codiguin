@@ -6,54 +6,79 @@
     <title>Leilão de Chaves de Jogos</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
+
 <body>
-    <header>
-        <nav class="navbar">
-            <h1> Leilão de Chaves</h1>
-            <ul>
-                <li><a href="{{ url_for('index') }}">Início</a></li>
-                {% if current_user.is_authenticated %}
-                    <li><a href="{{ url_for('dashboard') }}">Meus Leilões</a></li>
-                    <li><a href="{{ url_for('logout') }}">Sair</a></li>
-                {% else %}
-                    <li><a href="{{ url_for('login') }}">Entrar</a></li>
-                    <li><a href="{{ url_for('register') }}">Registrar</a></li>
-                {% endif %}
-            </ul>
-        </nav>
+
+    
+    <header class="navbar">
+        <div class="container nav-content">
+            <h1 class="logo">Leilão de Chaves</h1>
+
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('index') }}">Início</a></li>
+
+                    {% if current_user.is_authenticated %}
+                        <li><a href="{{ url_for('dashboard') }}">Meus Leilões</a></li>
+                        <li><a href="{{ url_for('logout') }}" class="btn-logout">Sair</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}">Entrar</a></li>
+                        <li><a href="{{ url_for('register') }}" class="btn-register">Registrar</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <main>
-        <section class="hero">
-            <h2>Compre e venda chaves de jogos com segurança!</h2>
-            <p>Participe dos leilões e encontre as melhores ofertas.</p>
-            {% if not current_user.is_authenticated %}
-                <a href="{{ url_for('register') }}" class="btn">Crie sua conta</a>
-            {% endif %}
-        </section>
 
-        <section class="auctions">
-            <h3>Leilões Ativos</h3>
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Compre e venda chaves de jogos com segurança!</h2>
+            <p>Participe de leilões ao vivo e encontre ofertas exclusivas.</p>
+
+            {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('register') }}" class="btn-primary">Criar conta</a>
+            {% endif %}
+        </div>
+    </section>
+
+    
+    <main class="container">
+        <section class="section">
+            <h3 class="section-title">🔥 Leilões Ativos</h3>
+
             {% if auctions %}
                 <div class="auction-grid">
                     {% for auction in auctions %}
                         <div class="auction-card">
-                            <h4>{{ auction.game_name }}</h4>
-                            <p>{{ auction.description }}</p>
-                            <p><strong>Lance atual:</strong> R$ {{ auction.current_bid }}</p>
-                            <p><strong>Término:</strong> {{ auction.end_time.strftime('%d/%m/%Y %H:%M') }}</p>
-                            <a href="{{ url_for('auction_detail', auction_id=auction.id) }}" class="btn">Ver Detalhes</a>
+                            <div class="card-header">
+                                <h4>{{ auction.game_name }}</h4>
+                            </div>
+
+                            <p class="description">{{ auction.description }}</p>
+
+                            <div class="info">
+                                <p><strong>Lance atual:</strong> R$ {{ auction.current_bid }}</p>
+                                <p><strong>Término:</strong> {{ auction.end_time.strftime('%d/%m/%Y %H:%M') }}</p>
+                            </div>
+
+                            <a href="{{ url_for('auction_detail', auction_id=auction.id) }}" class="btn-secondary">
+                                Ver Detalhes
+                            </a>
                         </div>
                     {% endfor %}
                 </div>
+
             {% else %}
-                <p>Não há leilões ativos no momento.</p>
+                <p class="empty">Nenhum leilão ativo no momento.</p>
             {% endif %}
         </section>
     </main>
 
-    <footer>
+    
+    <footer class="footer">
         <p>© 2025 Leilão de Chaves — Projeto de Cauê & Guilherme</p>
     </footer>
+
 </body>
 </html>

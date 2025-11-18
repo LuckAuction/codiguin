@@ -1,40 +1,87 @@
-    {% extends "base.html" %}
-    {% block content %}
-    <div class="container">
-    <h2>Painel do Administrador</h2>
-    <p>Bem-vindo, {{ session['username'] }}!</p>
+{% extends "base.html" %}
+{% block content %}
 
-    <h3>Leilões Ativos</h3>
-    <table>
-        <thead>
-        <tr><th>Jogo</th><th>Preço Atual</th><th>Status</th><th>Ações</th></tr>
-        </thead>
-        <tbody>
-        {% for a in auctions %}
-        <tr>
-            <td>{{ a.game.title }}</td>
-            <td>R$ {{ a.current_price }}</td>
-            <td>{{ a.status }}</td>
-            <td>
-            <a href="{{ url_for('auction_detail', auction_id=a.id) }}" class="btn btn-primary">Ver</a>
-            <a href="#" class="btn btn-cta">Encerrar</a>
-            </td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="admin-container">
 
-    <h3>Criar Novo Leilão</h3>
-    <form method="POST" action="{{ url_for('create_auction') }}">
-        <label>Título do jogo:</label>
-        <input type="text" name="title" required>
-        <label>Plataforma:</label>
-        <input type="text" name="platform">
-        <label>Descrição:</label>
-        <textarea name="description"></textarea>
-        <label>Preço inicial:</label>
-        <input type="number" step="0.01" name="start_price" required>
-        <button type="submit" class="btn btn-cta">Criar Leilão</button>
-    </form>
+    <div class="admin-header">
+        <h2>Painel do Administrador</h2>
+        <p class="welcome">Bem-vindo, <strong>{{ session['username'] }}</strong>!</p>
     </div>
-    {% endblock %}
+
+    
+    <section class="admin-section">
+        <h3 class="section-title">📢 Leilões Ativos</h3>
+
+        <div class="table-wrapper">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Jogo</th>
+                        <th>Preço Atual</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in auctions %}
+                    <tr>
+                        <td>{{ a.game.title }}</td>
+                        <td>R$ {{ a.current_price }}</td>
+                        <td>
+                            <span class="status {{ a.status|lower }}">{{ a.status }}</span>
+                        </td>
+                        <td class="actions">
+                            <a href="{{ url_for('auction_detail', auction_id=a.id) }}" 
+                               class="btn btn-primary">Ver</a>
+
+                            <a href="{{ url_for('end_auction', auction_id=a.id) }}"
+                               class="btn btn-danger">Encerrar</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="empty">Nenhum leilão ativo no momento.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    
+    <section class="admin-section">
+        <h3 class="section-title">🎮 Criar Novo Leilão</h3>
+
+        <form class="admin-form" method="POST" action="{{ url_for('create_auction') }}">
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Título do jogo:</label>
+                    <input type="text" name="title" placeholder="Ex: Red Dead Redemption 2" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Plataforma:</label>
+                    <input type="text" name="platform" placeholder="Ex: Steam, Epic, Uplay">
+                </div>
+
+                <div class="form-group full">
+                    <label>Descrição:</label>
+                    <textarea name="description" placeholder="Detalhes do jogo"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Preço inicial:</label>
+                    <input type="number" step="0.01" name="start_price" placeholder="Ex: 10.00" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-cta full-width">
+                Criar Leilão 🚀
+            </button>
+        </form>
+    </section>
+
+</div>
+
+{% endblock %}
