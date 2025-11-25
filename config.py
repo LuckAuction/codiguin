@@ -5,7 +5,6 @@ load_dotenv()
 
 
 class Config:
-    """Configuração Base: Aplica-se a todos os ambientes."""
 
     SECRET_KEY = os.environ.get('SECRET_KEY')
     
@@ -19,8 +18,6 @@ class Config:
 
 
 class DevelopmentConfig(Config):
-    """Configuração para Desenvolvimento Local."""
-    
     DEBUG = True
     
     if not os.environ.get('SECRET_KEY'):
@@ -30,8 +27,6 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
-    """Configuração para Testes Unitários e de Integração."""
-    
     TESTING = True 
     DEBUG = False
     
@@ -41,8 +36,7 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
-    """Configuração de Alta Segurança para o Ambiente de Produção."""
-    
+
     DEBUG = False
     
     if not os.environ.get('SECRET_KEY'):
@@ -64,5 +58,5 @@ config_map = {
 }
 
 def get_config(config_name):
-    """Retorna a classe de configuração baseada no nome do ambiente (string)."""
+
     return config_map.get(config_name, config_map['default'])
